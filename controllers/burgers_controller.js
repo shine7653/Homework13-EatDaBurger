@@ -10,7 +10,7 @@ router.get("/", function (req, res) {
         var bgrObject = {
             burgers: data
         };
-        console.log(bgrObject);
+        console.log("ROUTE ", bgrObject);
         res.render("index", bgrObject);
     });
 });

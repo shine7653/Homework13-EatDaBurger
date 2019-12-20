@@ -41,7 +41,7 @@ var orm = {
         connection.query(qString, function (err, result) {
             if (err) { throw err; }
 
-            console.log(result);
+            console.log("ORM " ,result);
             cb(result);
         });
     },
