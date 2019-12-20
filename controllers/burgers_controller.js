@@ -3,7 +3,7 @@ var router = express.Router();
 // Import the model(burger.js) to use its database function
 var burger = require("../models/burger.js");
 
-router.get("/burgers", function (req, res) {
+router.get("/", function (req, res) {
 
     // express callback response by calling burger.selectAllBurger
     burger.all(function (data) {

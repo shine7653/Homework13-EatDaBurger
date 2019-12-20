@@ -34,10 +34,11 @@ var orm = {
 
     all: function (tableInput, cb) {
 
-        var queryString = "SELECT * FROM" + tableInput + ";";
+        var queryString = "SELECT * FROM " + tableInput + ";"; //concatenation
+        let qString = `SELECT * FROM ${tableInput};`; //interpolating
         console.log(queryString);
 
-        connection.query(queryString, function (err, result) {
+        connection.query(qString, function (err, result) {
             if (err) { throw err; }
 
             console.log(result);
