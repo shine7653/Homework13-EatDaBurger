@@ -16,7 +16,7 @@ function printQuestionMarks(num) {
 }
 
 // Helper function to convert object key/value pairs to SQL syntax
-function objToSql(ob) {    
+function objToSql(ob) {
     var arr = [];
 
     // column1 = value1, column2 = value2,...
@@ -29,27 +29,73 @@ function objToSql(ob) {
 //===========================================================
 
 // and returns them into database commands like SQL
+// Object for all our SQL statement functions.
 var orm = {
 
-    all: function(tableInput, cb) {
+    all: function (tableInput, cb) {
 
         var queryString = "SELECT * FROM" + tableInput + ";";
         console.log(queryString);
 
-        connection.query(queryString, function(err, result) {
-            if(err) throw err;
+        connection.query(queryString, function (err, result) {
+            if (err) { throw err; }
 
             console.log(result);
             cb(result);
         });
     },
 
-
     // insertOne()
+    // val is an array of values that we want to save to cols
+    // cols are the columns we want to insert the values into
+    create: function (table, cols, vals, cb) {
 
+        var queryString = "INSERT INTO" + table;
+
+        queryString += " (";
+        queryString += cols.toString();
+        queryString += ") ";
+        queryString += "VALUES (";
+        queryString += printQuestionMarks(vals.length);
+        queryString += ") ";
+
+        console.log(queryString);
+
+        connection.query(queryString, vals, function (err, result) {
+            if (err) { throw err; }
+
+            cb(result);
+        });
+    },
 
     // updateOne()
+    // objColVals would be the columns and values that you want to update.
+    // an example of objColVals would be {name: panther, sleepy: true}
+    update: function (table, objColVals, condition, cb) {
+        var queryString = "UPDATE " + table;
 
+        queryString += " SET ";
+        queryString += objToSql(objColVals);
+        queryString += " WHERE ";
+        queryString += condition;
+
+        console.log(queryString);
+        connection.query(queryString, function (err, result) {
+            if (err) {throw err; }
+
+            cb(result);
+        });
+    }
 };
 
+// Export the orm object for the model (burger.js)
 module.exports = orm;
+
+
+
+
+
+// Object-relational mapping (ORM, O/RM, and O/R mapping tool) in computer science is a programming technique 
+// for converting data between incompatible type systems using object-oriented programming languages. 
+//This creates, in effect, a "virtual object database" 
+// that can be used from within the programming language. 
